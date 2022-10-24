@@ -29,11 +29,11 @@ class LoginFragment : Fragment() {
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_login,container,false)
         viewModel.Done.observe(viewLifecycleOwner, Observer { it -> done = it })
         binding.signIn.setOnClickListener {
-            if(done == false) it.findNavController().navigate(R.id.action_loginFragment_to_welcomeScreenFragment)
+            if(!done) it.findNavController().navigate(R.id.action_loginFragment_to_welcomeScreenFragment)
             else it.findNavController().navigate(R.id.action_loginFragment_to_shoesListingFragment)
         }
         binding.signUp.setOnClickListener {
-            if(done == false) it.findNavController().navigate(R.id.action_loginFragment_to_welcomeScreenFragment)
+            if(!done) it.findNavController().navigate(R.id.action_loginFragment_to_welcomeScreenFragment)
             else it.findNavController().navigate(R.id.action_loginFragment_to_shoesListingFragment)
         }
         return binding.root

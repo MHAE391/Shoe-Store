@@ -14,12 +14,12 @@ import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.viewbinding.ViewBindings
 import com.m391.shoestore.databinding.FragmentShoesListingBinding
+import com.m391.shoestore.databinding.ShoeDetailsBinding
 import kotlinx.coroutines.processNextEventInCurrentThread
 
 class ShoesListingFragment : Fragment() {
     lateinit var binding: FragmentShoesListingBinding
     lateinit var viewModel: ShoesListingViewModel
-    lateinit var shoes: MutableList<Shoe>
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -28,9 +28,9 @@ class ShoesListingFragment : Fragment() {
         setHasOptionsMenu(true)
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_shoes_listing,container,false)
         viewModel = ViewModelProvider(requireActivity())[ShoesListingViewModel::class.java]
-        viewModel.shoes.observe(viewLifecycleOwner, Observer {
-            for(ix in it){
-                addNewView(ix)
+         viewModel.shoeList.observe(viewLifecycleOwner, Observer {
+            for(shoe in it){
+               addView(shoe)
             }
         })
         binding.addShoe.setOnClickListener{
@@ -50,20 +50,15 @@ class ShoesListingFragment : Fragment() {
         }
         return super.onOptionsItemSelected(item)
     }
-    private fun addNewView(shoe: Shoe) {
-        // this method inflates the single item layout
-        // inside the parent linear layout
-        val inflater = LayoutInflater.from(requireContext()).inflate(R.layout.shoe_details, null)
-        val name = inflater?.findViewById<TextView>(R.id.shoe_name)
-        val size = inflater?.findViewById<TextView>(R.id.shoe_size)
-        val company = inflater?.findViewById<TextView>(R.id.shoe_company)
-        val description = inflater?.findViewById<TextView>(R.id.shoe_description)
-        name?.text = shoe.name
-        size?.text=shoe.size.toString()
-        company?.text = shoe.company
-        description?.text = shoe.description
-        binding.parentLinearLayout.addView(inflater, binding.parentLinearLayout.childCount)
+    fun addView(shoe: Shoe) {
+        val itemBinding = ShoeDetailsBinding.inflate(LayoutInflater.from(context))
+        itemBinding.apply {
+            shoeName.text = shoe.name
+            shoeSize.text = shoe.size.toString()
+            shoeCompany.text = shoe.company
+            shoeDescription.text = shoe.description
+        }
+        binding.parentLinearLayout.addView(itemBinding.root)
     }
-
 
 }

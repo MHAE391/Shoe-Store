@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-
     <data>
-
+        <variable
+            name="viewModel"
+            type="com.m391.shoestore.ShoesListingViewModel" />
     </data>
-
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".AddShoeFragment">
 
+        <!--
+            LinearLayout holds children items and make them vertical orientation and
+            make them all in the center
+        !-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -36,6 +40,7 @@
                 android:autofillHints="name"
                 android:background="@drawable/edit_text_view"
                 android:hint="@string/shoe_name"
+                android:text="@={viewModel.name}"
                 android:inputType="text"
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
@@ -53,6 +58,7 @@
                 android:autofillHints="password"
                 android:background="@drawable/edit_text_view"
                 android:hint="@string/shoe_size"
+                android:text="@={viewModel.size}"
                 android:inputType="numberDecimal"
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
@@ -70,6 +76,7 @@
                 android:background="@drawable/edit_text_view"
                 android:hint="@string/sheo_company"
                 android:inputType="text"
+                android:text="@={viewModel.company}"
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
                 android:textColor="@color/black"
@@ -84,14 +91,18 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
                 android:autofillHints="password"
-                android:background="@drawable/edit_text_view"
+               android:background="@drawable/edit_text_view"
                 android:hint="@string/describtion"
                 android:inputType="textMultiLine"
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
+                android:text="@={viewModel.description}"
                 android:textColor="@color/black"
                 android:textColorHint="#546E7A"
                 android:textSize="16sp" />
+            <!--
+             LinearLayout hold the next 3 items to make the horizontally oriented
+            !-->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

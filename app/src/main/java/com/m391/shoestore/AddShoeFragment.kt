@@ -5,12 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import com.m391.shoestore.databinding.FragmentAddShoeBinding
 
 class AddShoeFragment : Fragment() {
@@ -23,22 +22,18 @@ class AddShoeFragment : Fragment() {
         (activity as AppCompatActivity).supportActionBar?.hide()
         viewModel = ViewModelProvider(requireActivity())[ShoesListingViewModel::class.java]
         binding = DataBindingUtil.inflate(inflater,R.layout.fragment_add_shoe,container,false)
+        binding.viewModel = viewModel
         binding.addShoe.setOnClickListener {
-            val name = binding.shoeName.text.toString()
-            val size = binding.shoeSize.text.toString().fullTrim().toDouble()
-            val company = binding.shoeCompany.text.toString()
-            val description = binding.shoeDescription.text.toString()
-            val shoe:Shoe = Shoe(name,size,company,description)
-            viewModel.shoes.observe(viewLifecycleOwner, Observer { shoes->
-                shoes.add(shoe)
-            })
+            if(!viewModel.addingShoeToTheList()){
+                Toast.makeText(requireContext(),"All Fields Must Be Complete!!",Toast.LENGTH_SHORT).show()
+            }
             it.findNavController().navigate(R.id.action_fragment_add_shoe_to_shoesListingFragment)
         }
-
         binding.cancelAdding.setOnClickListener {
             it.findNavController().navigate(R.id.action_fragment_add_shoe_to_shoesListingFragment)
         }
+        viewModel.cleaningFields()
         return binding.root
     }
-    fun String.fullTrim() = trim().replace("\uFEFF", "")
+
 }
